@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script
+            src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <link rel="stylesheet" href="./style.css">
+        <title>React-2</title>
+    </head>
+    <body>
+        <div id="root"></div> 
+        <script type="text/babel">
+
+            
+            function App() {
+                let title= "TodoList"
+                let [notes,setNotes] = React.useState([
+                        {id:Math.random(),name:"HTML",time:new Date().toLocaleString()},
+                        {id:Math.random(),name:"Css",time:new Date().toLocaleString()},
+                        {id:Math.random(),name:"JS",time:new Date().toLocaleString()},
+                    ])
+                    
+                const [text, setText] = React.useState('')
+                function addNote(event) {
+                    event.preventDefault()
+                    if (text.length>2) {
+                        let newNote={
+                            id:Math.random(),
+                            name:text,
+                            time:new Date().toLocaleString()
+                        }
+                        setNotes([...notes,newNote])
+                        setText('')
+                    }
+                }
+                function btnClose(a,b) {
+                    let number = b;
+                    let text1 = a;
+                    console.log(text1);
+                    console.log(number);
+                    const newNotes = [...notes]; 
+                    newNotes.splice(number, number+1); 
+                    setNotes(newNotes);
+                    
+                }
+
+
+                
+                return (
+                    
+                    <div className="container">
+                        <div className="wrapper">
+                            <h2 className="title">{title}</h2>
+                            <form onSubmit={(event)=>addNote(event)}>
+                                <input type="text"  value={text} onChange={(e)=>setText(e.target.value)}/>
+                                <button>Add Note</button>
+                            </form>
+                            <ul>
+                                {notes.map((note,i)=>(
+                                   
+                                  <li key={note.id}>
+                                    <h2>index: {i}</h2>
+                                    <h2>Work: {note.name}</h2>
+                                    <h2>Time: {note.time}</h2>
+                                    <button onClick={(event)=>btnClose(note,i)}>X</button>
+                                    </li>  
+                                    
+                                ))}
+                                
+                            </ul>
+                        </div>
+                        
+                    </div>    
+                 
+                )
+            }
+        const app = document.getElementById('root')
+        const root = ReactDOM.createRoot(app)
+        root.render(<App/>)
+        </script>
+    </body>
+</html>
